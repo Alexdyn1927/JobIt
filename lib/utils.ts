@@ -25,4 +25,14 @@ export function validateEmail(email: string): boolean {
   );
 }
 
+/**
+ * Normalize email for case-insensitive comparison
+ * @param email - The email address to normalize
+ * @returns normalized (lowercase) email
+ */
+export function normalizeEmail(email: string): string {
+  // Trim whitespace and convert to lowercase
+  return email.trim().toLowerCase();
+}
+
 // ... [rest of the previous file contents]
