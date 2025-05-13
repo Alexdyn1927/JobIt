@@ -1,5 +1,17 @@
 import { validateEmail } from '@/lib/utils';
 
+// Ensure jest types are recognized
+declare global {
+  namespace NodeJS {
+    interface Global {
+      describe: jest.Describe;
+      it: jest.It;
+      test: jest.It;
+      expect: jest.Expect;
+    }
+  }
+}
+
 describe('Email Validation', () => {
   // Test valid email addresses
   const validEmails = [
