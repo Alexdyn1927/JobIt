@@ -1,16 +1,4 @@
-import { validateEmail } from '@/lib/utils';
-
-// Ensure jest types are recognized
-declare global {
-  namespace NodeJS {
-    interface Global {
-      describe: jest.Describe;
-      it: jest.It;
-      test: jest.It;
-      expect: jest.Expect;
-    }
-  }
-}
+import { validateEmail, normalizeEmail } from '@/lib/utils';
 
 describe('Email Validation', () => {
   // Test valid email addresses
@@ -58,5 +46,18 @@ describe('Email Validation', () => {
     // Exceeding max length
     const tooLongEmail = 'a'.repeat(321) + '@example.com';
     expect(validateEmail(tooLongEmail)).toBe(false);
+  });
+
+  // Email normalization tests
+  describe('Email Normalization', () => {
+    const testCases = [
+      { input: 'User@Example.com', expected: 'user@example.com' },
+      { input: '  Test@Domain.com  ', expected: 'test@domain.com' },
+      { input: 'USER@EXAMPLE.COM', expected: 'user@example.com' }
+    ];
+
+    test.each(testCases)('should normalize email: $input', ({ input, expected }) => {
+      expect(normalizeEmail(input)).toBe(expected);
+    });
   });
 });
