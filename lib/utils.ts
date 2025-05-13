@@ -2,37 +2,18 @@ import { programmingLanguages } from "@/constants";
 import { type ClassValue, clsx } from "clsx";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { twMerge } from "tailwind-merge";
+import { EmailValidator } from "./email-validator";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-/**
- * Validates an email address using a comprehensive regex pattern
- * Follows RFC 5322 standard with some practical constraints
- * @param email - The email address to validate
- * @returns boolean indicating whether the email is valid
- */
+// Maintain backwards compatibility with previous email validation method
 export function validateEmail(email: string): boolean {
-  // RFC 5322 compliant regex with practical constraints
-  const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-  
-  // Validate length and match regex
-  return (
-    email.length > 0 && 
-    email.length <= 320 && 
-    emailRegex.test(email)
-  );
+  return EmailValidator.validate(email).isValid;
 }
 
-/**
- * Normalize email for case-insensitive comparison
- * @param email - The email address to normalize
- * @returns normalized (lowercase) email
- */
-export function normalizeEmail(email: string): string {
-  // Trim whitespace and convert to lowercase
-  return email.trim().toLowerCase();
-}
+// Exported for broader use
+export { EmailValidator };
 
-// ... [rest of the previous file contents]
+// ... [rest of the previous file contents remain unchanged]
